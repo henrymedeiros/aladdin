@@ -1,12 +1,14 @@
 "use client";
 import { useState, useRef } from "react";
 import formatCode from "./utils/formatCode";
+import formatJavascriptCode from "./utils/formatJavascriptCode";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 export default function Home() {
   const [codeStringValue, setCodeStringValue] = useState("");
   const [formattedCode, setFormattedCode] = useState("");
+  const [delayOption, setDelayOption] = useState("no-delay");
   const [description, setDescription] = useState("");
   const textareaRef = useRef(null);
 
@@ -21,16 +23,45 @@ export default function Home() {
 
   function wrapCode(codeString, author = "Henry Medeiros") {
     if (!codeString) return;
+    let teste;
+    if (delayOption === "no-delay") {
+      teste = formatJavascriptCode(`(() => {
+        ${codeString.trim()}
+      })();`);
+    } else if (delayOption === "minor-delay") {
+      teste = formatJavascriptCode(`
+      document.addEventListener('DOMContentLoaded', () => { 
+        (() => {
+          ${codeString.trim()}
+        })();
+      });
+      `);
+    } else if (delayOption === "major-delay") {
+      teste = formatJavascriptCode(`
+      document.addEventListener('readystatechange', event => { 
+        if (event.target.readyState === "complete") {
+          (() => {
+            ${codeString.trim()}
+          })();
+        }
+    });
+      `);
+    }
+
     return formatCode(`
     <!-- ${description} -->
     <!-- ${getFormattedDate(new Date())} | ${author} -->
-    <script>${codeString.trim()}</script>
+    <script>${teste.trim()}</script>
     `);
   }
 
   const handleWrapCode = () => {
     const value = textareaRef.current.value;
     setFormattedCode(wrapCode(value));
+  };
+
+  const handleDelayOption = (event) => {
+    setDelayOption(event.target.value);
   };
 
   return (
@@ -46,7 +77,7 @@ export default function Home() {
           cols="30"
           rows="10"
         ></textarea>
-        <SyntaxHighlighter language="html" style={docco} className="w-1/2">
+        <SyntaxHighlighter language="html" style={darcula} className="w-1/2">
           {formattedCode}
         </SyntaxHighlighter>
       </div>
@@ -57,18 +88,11 @@ export default function Home() {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+
       <button onClick={handleWrapCode} className="btn bg-green-300 p-2">
         Wrap code
       </button>
-      <button
-        disabled
-        className="btn bg-red-300 p-2"
-        onClick={() => {
-          navigator.clipboard.writeText(formattedCode);
-        }}
-      >
-        Wrap + Format code
-      </button>
+
       <button
         className="btn bg-blue-500 p-2"
         onClick={() => {
@@ -77,6 +101,37 @@ export default function Home() {
       >
         Copy!
       </button>
+
+      <div>
+        <input
+          type="radio"
+          name="delay"
+          value="no-delay"
+          checked={delayOption === "no-delay"}
+          onChange={handleDelayOption}
+        />
+        <label htmlFor="">No delay</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          name="delay"
+          value="minor-delay"
+          checked={delayOption === "minor-delay"}
+          onChange={handleDelayOption}
+        />
+        <label htmlFor="">Add minor delay</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          name="delay"
+          value="major-delay"
+          checked={delayOption === "major-delay"}
+          onChange={handleDelayOption}
+        />
+        <label htmlFor="">Add major delay</label>
+      </div>
     </div>
   );
 }
