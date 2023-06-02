@@ -1,5 +1,4 @@
 "use client";
-const prettier = require("prettier");
 import { useState, useRef } from "react";
 import formatCode from "./utils/formatCode";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -20,17 +19,13 @@ export default function Home() {
     return formattedDate;
   }
 
-  function wrapCode(codeString, author = "Henry Medeiros", description = "") {
+  function wrapCode(codeString, author = "Henry Medeiros") {
     if (!codeString) return;
-
-    console.log(formatCode(codeString));
-    return `
+    return formatCode(`
     <!-- ${description} -->
     <!-- ${getFormattedDate(new Date())} | ${author} -->
-    <script>
-      ${formatCode(codeString)}
-    </script>
-    `;
+    <script>${codeString.trim()}</script>
+    `);
   }
 
   const handleWrapCode = () => {
@@ -39,41 +34,49 @@ export default function Home() {
   };
 
   return (
-    <>
-      <textarea
-        placeholder="Enter your code here"
-        id=""
-        value={codeStringValue}
-        ref={textareaRef}
-        onChange={(e) => setCodeStringValue(e.target.value)}
-        className="w-full h-full p-4 bg-gray-900 text-white"
-        cols="30"
-        rows="10"
-      ></textarea>
+    <div className="h-screen">
+      <div className="flex w-screen h-1/2">
+        <textarea
+          placeholder="Enter your code here"
+          id=""
+          value={codeStringValue}
+          ref={textareaRef}
+          onChange={(e) => setCodeStringValue(e.target.value)}
+          className="w-1/2 h-full p-4 bg-gray-900 text-white"
+          cols="30"
+          rows="10"
+        ></textarea>
+        <SyntaxHighlighter language="html" style={docco} className="w-1/2">
+          {formattedCode}
+        </SyntaxHighlighter>
+      </div>
+
       <input
         type="text"
         placeholder="Enter your description"
-        //value={description}
-        //onChange={(e) => setDescription(e.target.value)}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <button onClick={handleWrapCode} className="btn bg-green-300 p-2">
         Wrap code
       </button>
-      <div>
-        <h1>Formatted code</h1>
-        <SyntaxHighlighter language="javascript" style={docco}>
-          {formattedCode}
-        </SyntaxHighlighter>
-
-        <button
-          className="btn bg-blue-500 p-5"
-          onClick={() => {
-            navigator.clipboard.writeText(formattedCode);
-          }}
-        >
-          Copy!
-        </button>
-      </div>
-    </>
+      <button
+        disabled
+        className="btn bg-red-300 p-2"
+        onClick={() => {
+          navigator.clipboard.writeText(formattedCode);
+        }}
+      >
+        Wrap + Format code
+      </button>
+      <button
+        className="btn bg-blue-500 p-2"
+        onClick={() => {
+          navigator.clipboard.writeText(formattedCode);
+        }}
+      >
+        Copy!
+      </button>
+    </div>
   );
 }

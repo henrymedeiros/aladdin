@@ -1,10 +1,10 @@
 import prettier from "prettier/standalone";
-import parser from "prettier/parser-babel";
+import parser from "prettier/parser-html";
 
 function formatCode(code) {
   try {
     return prettier.format(code, {
-      parser: "babel",
+      parser: "html",
       plugins: [parser],
       // Set your desired formatting options here
       // For example, you can specify the indentation size
@@ -12,7 +12,6 @@ function formatCode(code) {
     });
   } catch (error) {
     console.error("Failed to format code:", error);
-    console.log("console nation", code);
     return code;
   }
 }
