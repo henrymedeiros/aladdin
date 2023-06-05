@@ -4,6 +4,7 @@ import formatCode from "./utils/formatCode";
 import formatJavascriptCode from "./utils/formatJavascriptCode";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import Sidebar from "./components/Sidebar";
 
 export default function Home() {
   const [codeStringValue, setCodeStringValue] = useState("");
@@ -21,7 +22,11 @@ export default function Home() {
     return formattedDate;
   }
 
-  function wrapCode(codeString, author = "Henry Medeiros") {
+  function wrapCode(
+    codeString,
+    author = "Henry Medeiros",
+    wrapType = "full-wrap"
+  ) {
     if (!codeString) return;
     let teste;
     if (delayOption === "no-delay") {
@@ -47,7 +52,9 @@ export default function Home() {
     });
       `);
     }
-
+    if (wrapType === "parcial-wrap") {
+      return teste;
+    }
     return formatCode(`
     <!-- ${description} -->
     <!-- ${getFormattedDate(new Date())} | ${author} -->
@@ -55,9 +62,10 @@ export default function Home() {
     `);
   }
 
-  const handleWrapCode = () => {
-    const value = textareaRef.current.value;
-    setFormattedCode(wrapCode(value));
+  const handleWrapCode = (e) => {
+    const textAreavalue = textareaRef.current.value;
+    setFormattedCode(wrapCode(textAreavalue, "Henry Medeiros", e.target.value));
+    setDescription("");
   };
 
   const handleDelayOption = (event) => {
@@ -89,8 +97,19 @@ export default function Home() {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <button onClick={handleWrapCode} className="btn bg-green-300 p-2">
+      <button
+        onClick={handleWrapCode}
+        value="full-wrap"
+        className="btn bg-green-300 p-2"
+      >
         Wrap code
+      </button>
+      <button
+        onClick={handleWrapCode}
+        value="parcial-wrap"
+        className="btn bg-green-500 p-2"
+      >
+        Wrap code for tests
       </button>
 
       <button
