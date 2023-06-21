@@ -133,32 +133,35 @@ export default function Home() {
       <div>
         <input
           type="radio"
-          name="delay"
+          name="no-delay"
+          id="no-delay"
           value="no-delay"
           checked={delayOption === "no-delay"}
           onChange={handleDelayOption}
         />
-        <label htmlFor="">No delay</label>
+        <label htmlFor="no-delay">No delay</label>
       </div>
       <div>
         <input
           type="radio"
           name="delay"
           value="minor-delay"
+          id="minor-delay"
           checked={delayOption === "minor-delay"}
           onChange={handleDelayOption}
         />
-        <label htmlFor="">Add minor delay</label>
+        <label htmlFor="minor-delay">Add minor delay</label>
       </div>
       <div>
         <input
           type="radio"
           name="delay"
           value="major-delay"
+          id="major-delay"
           checked={delayOption === "major-delay"}
           onChange={handleDelayOption}
         />
-        <label htmlFor="">Add major delay</label>
+        <label htmlFor="major-delay">Add major delay</label>
       </div>
     </div>
   );
