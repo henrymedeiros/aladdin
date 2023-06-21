@@ -11,6 +11,7 @@ export default function Home() {
   const [formattedCode, setFormattedCode] = useState("");
   const [delayOption, setDelayOption] = useState("no-delay");
   const [description, setDescription] = useState("");
+  const [author, setAuthor] = useState("");
   const textareaRef = useRef(null);
 
   function getFormattedDate(date) {
@@ -64,8 +65,9 @@ export default function Home() {
 
   const handleWrapCode = (e) => {
     const textAreavalue = textareaRef.current.value;
-    setFormattedCode(wrapCode(textAreavalue, "Henry Medeiros", e.target.value));
+    setFormattedCode(wrapCode(textAreavalue, author, e.target.value));
     setDescription("");
+    setAuthor("");
   };
 
   const handleDelayOption = (event) => {
@@ -95,6 +97,13 @@ export default function Home() {
         placeholder="Enter your description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+      />
+
+      <input 
+        type="text" 
+        placeholder="Author"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
       />
 
       <button
