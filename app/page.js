@@ -11,7 +11,7 @@ export default function Home() {
   const [formattedCode, setFormattedCode] = useState("");
   const [delayOption, setDelayOption] = useState("no-delay");
   const [description, setDescription] = useState("");
-  const [author, setAuthor] = useState("");
+  const [author, setAuthor] = useState("Henry Medeiros"); // aplicar localstorage aqui
   const textareaRef = useRef(null);
 
   function getFormattedDate(date) {
@@ -23,11 +23,7 @@ export default function Home() {
     return formattedDate;
   }
 
-  function wrapCode(
-    codeString,
-    author = "Henry Medeiros",
-    wrapType = "full-wrap"
-  ) {
+  function wrapCode(codeString, author, wrapType = "full-wrap") {
     if (!codeString) return;
     let teste;
     if (delayOption === "no-delay") {
@@ -56,6 +52,13 @@ export default function Home() {
     if (wrapType === "parcial-wrap") {
       return teste;
     }
+    if (wrapType === "style-wrap") {
+      return formatCode(`
+    <!-- ${description} -->
+    <!-- ${getFormattedDate(new Date())} | ${author} -->
+    <style>${codeString}</style>
+    `);
+    }
     return formatCode(`
     <!-- ${description} -->
     <!-- ${getFormattedDate(new Date())} | ${author} -->
@@ -67,7 +70,6 @@ export default function Home() {
     const textAreavalue = textareaRef.current.value;
     setFormattedCode(wrapCode(textAreavalue, author, e.target.value));
     setDescription("");
-    setAuthor("");
   };
 
   const handleDelayOption = (event) => {
@@ -99,12 +101,10 @@ export default function Home() {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <input 
-        type="text" 
-        placeholder="Author"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
+      <select value={author} onChange={(e) => setAuthor(e.target.value)}>
+        <option value="Henry Medeiros">Henry Medeiros</option>
+        <option value="Paulo Moreira">Paulo Moreira</option>
+      </select>
 
       <button
         onClick={handleWrapCode}
@@ -119,6 +119,13 @@ export default function Home() {
         className="btn bg-green-500 p-2"
       >
         Wrap code for tests
+      </button>
+      <button
+        onClick={handleWrapCode}
+        value="style-wrap"
+        className="btn bg-green-800 p-2"
+      >
+        Style Wrap
       </button>
 
       <button
