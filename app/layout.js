@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import Link from "next/link";
+import Sidebar from "./components/Sidebar";
 
 export const metadata = {
   title: "Aladdin",
@@ -11,7 +11,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className="grid grid-cols-12 w-screen h-screen">
+        <Sidebar></Sidebar>
+        {children}
+      </body>
     </html>
   );
 }

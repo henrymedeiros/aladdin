@@ -77,99 +77,106 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen">
-      <div className="flex w-screen h-1/2">
-        <textarea
-          placeholder="Enter your code here"
-          id=""
-          value={codeStringValue}
-          ref={textareaRef}
-          onChange={(e) => setCodeStringValue(e.target.value)}
-          className="w-1/2 h-full p-4 bg-gray-900 text-white"
-          cols="30"
-          rows="10"
-        ></textarea>
-        <SyntaxHighlighter language="html" style={darcula} className="w-1/2">
-          {formattedCode}
-        </SyntaxHighlighter>
+
+      <div id="content-area" className="col-span-10 " >
+        <div id="code-wrapper" >
+          <div className="flex h-1/2">
+            <textarea
+              placeholder="Enter your code here"
+              id=""
+              value={codeStringValue}
+              ref={textareaRef}
+              onChange={(e) => setCodeStringValue(e.target.value)}
+              className="w-1/2 h-full p-4 bg-gray-900 text-white"
+              cols="30"
+              rows="10"
+            ></textarea>
+            <SyntaxHighlighter
+              language="html"
+              style={darcula}
+              className="w-1/2"
+            >
+              {formattedCode}
+            </SyntaxHighlighter>
+          </div>
+          <input
+            type="text"
+            placeholder="Enter your description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <select value={author} onChange={(e) => setAuthor(e.target.value)}>
+            <option value="Henry Medeiros">Henry Medeiros</option>
+            <option value="Paulo Moreira">Paulo Moreira</option>
+          </select>
+
+          <button
+            onClick={handleWrapCode}
+            value="full-wrap"
+            className="btn bg-green-300 p-2"
+          >
+            Wrap code
+          </button>
+          <button
+            onClick={handleWrapCode}
+            value="parcial-wrap"
+            className="btn bg-green-500 p-2"
+          >
+            Wrap code for tests
+          </button>
+          <button
+            onClick={handleWrapCode}
+            value="style-wrap"
+            className="btn bg-green-800 p-2"
+          >
+            Style Wrap
+          </button>
+
+          <button
+            className="btn bg-blue-500 p-2"
+            onClick={() => {
+              navigator.clipboard.writeText(formattedCode);
+            }}
+          >
+            Copy!
+          </button>
+
+          <div>
+            <input
+              type="radio"
+              name="no-delay"
+              id="no-delay"
+              value="no-delay"
+              checked={delayOption === "no-delay"}
+              onChange={handleDelayOption}
+            />
+            <label htmlFor="no-delay">No delay</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="delay"
+              value="minor-delay"
+              id="minor-delay"
+              checked={delayOption === "minor-delay"}
+              onChange={handleDelayOption}
+            />
+            <label htmlFor="minor-delay">Add minor delay</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="delay"
+              value="major-delay"
+              id="major-delay"
+              checked={delayOption === "major-delay"}
+              onChange={handleDelayOption}
+            />
+            <label htmlFor="major-delay">Add major delay</label>
+          </div>
+        </div>
       </div>
-
-      <input
-        type="text"
-        placeholder="Enter your description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <select value={author} onChange={(e) => setAuthor(e.target.value)}>
-        <option value="Henry Medeiros">Henry Medeiros</option>
-        <option value="Paulo Moreira">Paulo Moreira</option>
-      </select>
-
-      <button
-        onClick={handleWrapCode}
-        value="full-wrap"
-        className="btn bg-green-300 p-2"
-      >
-        Wrap code
-      </button>
-      <button
-        onClick={handleWrapCode}
-        value="parcial-wrap"
-        className="btn bg-green-500 p-2"
-      >
-        Wrap code for tests
-      </button>
-      <button
-        onClick={handleWrapCode}
-        value="style-wrap"
-        className="btn bg-green-800 p-2"
-      >
-        Style Wrap
-      </button>
-
-      <button
-        className="btn bg-blue-500 p-2"
-        onClick={() => {
-          navigator.clipboard.writeText(formattedCode);
-        }}
-      >
-        Copy!
-      </button>
-
-      <div>
-        <input
-          type="radio"
-          name="no-delay"
-          id="no-delay"
-          value="no-delay"
-          checked={delayOption === "no-delay"}
-          onChange={handleDelayOption}
-        />
-        <label htmlFor="no-delay">No delay</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          name="delay"
-          value="minor-delay"
-          id="minor-delay"
-          checked={delayOption === "minor-delay"}
-          onChange={handleDelayOption}
-        />
-        <label htmlFor="minor-delay">Add minor delay</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          name="delay"
-          value="major-delay"
-          id="major-delay"
-          checked={delayOption === "major-delay"}
-          onChange={handleDelayOption}
-        />
-        <label htmlFor="major-delay">Add major delay</label>
-      </div>
-    </div>
+   
   );
 }
