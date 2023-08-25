@@ -6,6 +6,8 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Sidebar from "./components/Sidebar";
 import CopyButton from "./components/CopyButton";
+import InputTextField from "./components/InputTextField";
+import Button from "./components/Button";
 
 export default function Home() {
   const [codeStringValue, setCodeStringValue] = useState("");
@@ -103,30 +105,31 @@ export default function Home() {
           <option value="Paulo Moreira">Paulo Moreira</option>
         </select>
 
-        <button
+        <Button
           onClick={handleWrapCode}
-          value="full-wrap"
-          className="btn bg-green-300 p-2"
+          label={"Wrap Code"}
+          value={"full-wrap"}
+          className={"btn bg-green-300 p-2"}
         >
-          Wrap code
-        </button>
-        <button
+          {" "}
+        </Button>
+        <Button
           onClick={handleWrapCode}
-          value="parcial-wrap"
-          className="btn bg-green-500 p-2"
+          label={"Parcial Wrap"}
+          value={"parcial-wrap"}
+          className={"btn bg-green-500 p-2"}
         >
-          Wrap code for tests
-        </button>
-        <button
+          {" "}
+        </Button>
+        <Button
           onClick={handleWrapCode}
-          value="style-wrap"
-          className="btn bg-green-800 p-2"
+          label={"Style Wrap"}
+          value={"style-wrap"}
+          className={"btn bg-green-800 p-2"}
         >
-          Style Wrap
-        </button>
+          {" "}
+        </Button>
         <CopyButton text={formattedCode}></CopyButton>
-
-        
 
         <div>
           <input
@@ -161,7 +164,6 @@ export default function Home() {
           />
           <label htmlFor="major-delay">Add major delay</label>
         </div>
-        
       </div>
     </div>
   );

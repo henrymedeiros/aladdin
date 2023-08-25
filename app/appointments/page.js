@@ -2,6 +2,9 @@
 import React from "react";
 import { useState} from "react";
 import CopyButton from "../components/CopyButton";
+import InputTextField from "../components/InputTextField";
+
+
 function page() {
   const [firstStepComment, setFirstStepComment] = useState("");
   const [firstStepData, setFirstStepData] = useState({
@@ -24,14 +27,15 @@ function page() {
 
 
   return (
-    <>
+    <div className="col-span-10">
+      <InputTextField label={'Enter Name'} placeholder={'Domain generated name'} value={firstStepData.name} onChange={handleInputChange}></InputTextField>
       <input type="text" name="name" placeholder="Enter name" value={firstStepData.name} onChange={handleInputChange}
         />
       <input type="text" name ="value" placeholder="Enter value" value={firstStepData.value} onChange={handleInputChange}/>
       <button onClick={() => generateComment(firstStepData)}>Generate comment</button>
-      <textarea name="output" id="output" cols="30" rows="10" value={firstStepComment}></textarea>
+      {firstStepComment !== '' && <textarea value={firstStepComment} readOnly></textarea>}
       <CopyButton text={firstStepComment}></CopyButton>
-    </>
+    </div>
   );
 }
 
