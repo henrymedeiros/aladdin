@@ -5,6 +5,7 @@ import formatJavascriptCode from "./utils/formatJavascriptCode";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Sidebar from "./components/Sidebar";
+import CopyButton from "./components/CopyButton";
 
 export default function Home() {
   const [codeStringValue, setCodeStringValue] = useState("");
@@ -73,7 +74,7 @@ export default function Home() {
   };
 
   return (
-    <div id="content-area" className="col-span-10 ">
+    <div id="content-area" className="col-span-10">
       <div id="code-wrapper">
         <div className="flex h-1/2">
           <textarea
@@ -123,15 +124,9 @@ export default function Home() {
         >
           Style Wrap
         </button>
+        <CopyButton text={formattedCode}></CopyButton>
 
-        <button
-          className="btn bg-blue-500 p-2"
-          onClick={() => {
-            navigator.clipboard.writeText(formattedCode);
-          }}
-        >
-          Copy!
-        </button>
+        
 
         <div>
           <input
@@ -166,6 +161,7 @@ export default function Home() {
           />
           <label htmlFor="major-delay">Add major delay</label>
         </div>
+        
       </div>
     </div>
   );
